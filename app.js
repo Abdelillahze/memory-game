@@ -1,37 +1,35 @@
 // selector
 let cards = document.querySelectorAll(".parent .card.infinished");
 let times = 0;
-let timeout = true;
 let check = [];
+let timeout = true;
 let congrats = document.querySelector(".congrats");
 // when click flip
 cards.forEach(
   (e) =>
     (e.onclick = () => {
-      if (timeout) {
-        e.classList.add("active");
-        check.push(e);
-        if (check.length == 2) {
-          if (
-            check[0].children[0].children[0].src ==
-            check[1].children[0].children[0].src
-          ) {
-            check[0].classList.remove("infinished");
-            check[0].classList.add("finished");
-            check[1].classList.remove("infinished");
-            check[1].classList.add("finished");
-          }
-          check = [];
+      if (!timeout) return;
+      e.classList.add("active");
+      times++;
+      check.push(e);
+      if (times == 2) {
+        // smaller
+        if (check[0].id == check[1].id) {
+          // add finished class and remove infinished
+          check[0].classList.add("finished");
+          check[0].classList.add("infinished");
+          check[1].classList.add("finished");
+          check[1].classList.add("infinished");
+          // empty the array
+          check.length = 0;
         }
-        times++;
-        if (times == 2) {
-          timeout = false;
-          setTimeout(() => {
-            cards.forEach((el) => el.classList.remove("active"));
-            timeout = true;
-          }, 500);
-          times = 0;
-        }
+        // timeout
+        timeout = false;
+        setTimeout(() => {
+          cards.forEach((el) => el.classList.remove("active"));
+          timeout = true;
+        }, 500);
+        times = 0;
       }
     })
 );
@@ -76,6 +74,7 @@ function generateImgs() {
 // display randomly
 
 function displayRandom(arr) {
+  let names = arr.map((e) => e.slice(0, e.search(".svg")));
   // loop
   for (let i = 0; i < cards.length; i++) {
     // random number
@@ -85,6 +84,7 @@ function displayRandom(arr) {
     let div = document.createElement("div");
     // set classes and src
     div.classList.add("back");
+    cards[i].id = names[randomNumber];
     img.src = `images/${arr[randomNumber]}`;
     // remove from arr
     arr.splice(randomNumber, 1);
