@@ -26,9 +26,9 @@ if (timeout) {
           if (values[0].id == values[1].id && values[0] != values[1]) {
             // add finished class and remove infinished
             values[0].classList.add("finished");
-            values[0].classList.add("infinished");
+            values[0].classList.remove("infinished");
             values[1].classList.add("finished");
-            values[1].classList.add("infinished");
+            values[1].classList.remove("infinished");
             // empty the array
             values.length = 0;
           }
