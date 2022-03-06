@@ -14,7 +14,6 @@ if (timeout) {
         check.push(e);
         if (new Set([...check]).size == 2) {
           let values = [...check];
-          console.log(values);
           // timeout
           timeout = false;
           setTimeout(() => {
