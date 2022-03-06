@@ -1,38 +1,41 @@
 // selector
 let cards = document.querySelectorAll(".parent .card.infinished");
-let times = 0;
 let check = [];
 let timeout = true;
 let congrats = document.querySelector(".congrats");
 // when click flip
-cards.forEach(
-  (e) =>
-    (e.onclick = () => {
-      if (!timeout) return;
-      e.classList.add("active");
-      times++;
-      check.push(e);
-      if (times == 2) {
-        // smaller
-        if (check[0].id == check[1].id) {
-          // add finished class and remove infinished
-          check[0].classList.add("finished");
-          check[0].classList.add("infinished");
-          check[1].classList.add("finished");
-          check[1].classList.add("infinished");
-          // empty the array
+
+if (timeout) {
+  cards.forEach(
+    (e) =>
+      (e.onclick = () => {
+        if (!timeout) return;
+        e.classList.add("active");
+        check.push(e);
+        if (new Set([...check]).size == 2) {
+          let values = [...check];
+          console.log(values);
+          // timeout
+          timeout = false;
+          setTimeout(() => {
+            cards.forEach((el) => el.classList.remove("active"));
+            timeout = true;
+          }, 500);
           check.length = 0;
+          // smaller
+          if (values[0].id == values[1].id && values[0] != values[1]) {
+            // add finished class and remove infinished
+            values[0].classList.add("finished");
+            values[0].classList.add("infinished");
+            values[1].classList.add("finished");
+            values[1].classList.add("infinished");
+            // empty the array
+            values.length = 0;
+          }
         }
-        // timeout
-        timeout = false;
-        setTimeout(() => {
-          cards.forEach((el) => el.classList.remove("active"));
-          timeout = true;
-        }, 500);
-        times = 0;
-      }
-    })
-);
+      })
+  );
+}
 
 setInterval(() => {
   let cards = document.querySelector(".card.infinished");
