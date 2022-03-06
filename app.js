@@ -89,8 +89,9 @@ function displayRandom(arr) {
     div.classList.add("back");
     cards[i].id = names[randomNumber];
     img.src = `images/${arr[randomNumber]}`;
-    // remove from arr
+    // remove from arr and names
     arr.splice(randomNumber, 1);
+    names.splice(randomNumber, 1);
     // append element
     div.appendChild(img);
     cards[i].prepend(div);
