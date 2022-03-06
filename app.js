@@ -55,28 +55,43 @@ function generateImgs() {
     "pencil.svg",
   ];
   let used = [];
+  let result = [];
 
   // start generation
   for (let i = 0; i < cards.length; i++) {
     // selector
     let randomNumber = Math.floor(Math.random() * (imgs.length - 1));
-    let imgElement = document.createElement("img");
-    let div = document.createElement("div");
-    // add img and to used
-
-    for (let i = 0; i < used.length; i++) {
+    for (let i = 0; i < imgs.length; i++) {
       if (used.filter((e) => e == imgs[i]).length == 2) {
         imgs.splice(i, 1);
         randomNumber = Math.floor(Math.random() * (imgs.length - 1));
       }
     }
-
-    div.classList.add("back");
-    imgElement.src = `images/${imgs[randomNumber]}`;
-    div.appendChild(imgElement);
-    cards[i].prepend(div);
+    result.push(imgs[randomNumber]);
     used.push(imgs[randomNumber]);
+  }
+  return result;
+}
+
+// display randomly
+
+function displayRandom(arr) {
+  // loop
+  for (let i = 0; i < cards.length; i++) {
+    // random number
+    let randomNumber = Math.floor(Math.random() * (arr.length - 1));
+    // create elements
+    let img = document.createElement("img");
+    let div = document.createElement("div");
+    // set classes and src
+    div.classList.add("back");
+    img.src = `images/${arr[randomNumber]}`;
+    // remove from arr
+    arr.splice(randomNumber, 1);
+    // append element
+    div.appendChild(img);
+    cards[i].prepend(div);
   }
 }
 
-generateImgs();
+displayRandom(generateImgs());
